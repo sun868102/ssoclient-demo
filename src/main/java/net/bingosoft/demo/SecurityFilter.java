@@ -1,6 +1,7 @@
 package net.bingosoft.demo;
 
-import net.bingosoft.oss.ssoclient.model.Authentication;
+import net.bingosoft.oss.ssoclient.internal.Base64;
+import net.bingosoft.oss.ssoclient.internal.Urls;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -33,10 +34,10 @@ public class SecurityFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse)response;
         Object authentication = req.getSession().getAttribute("loginUser");
         // 检查用户是否登录
-        if(authentication != null){
+        if(authentication != null || req.getRequestURI().endsWith("/ssoclient/login")){
             chain.doFilter(request,response);
         }else {
-            resp.sendRedirect(req.getContextPath()+"/ssoclient/login");
+            resp.sendRedirect(req.getContextPath()+"/ssoclient/login?return_url="+ Urls.encode("http://localhost:8080/user.jsp"));
         }
     }
 

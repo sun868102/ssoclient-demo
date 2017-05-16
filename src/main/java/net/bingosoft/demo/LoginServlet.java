@@ -11,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Created by KAEL on 2017/5/10.
@@ -20,14 +19,14 @@ public class LoginServlet extends AbstractLoginServlet {
     @Override
     protected SSOClient getClient(ServletConfig servletConfig) throws ServletException {
         SSOConfig config = new SSOConfig();
-        config.setClientId("clientId");
-        config.setClientSecret("clientSecret");
+        config.setClientId("ssoSDKClientId");
+        config.setClientSecret("ssoSDKClientSecret");
         
         // 这个地址需要在应用注册的时候填写
         String redirectUri = servletConfig.getServletContext().getContextPath()+"/ssoclient/login";
         config.setRedirectUri(redirectUri);
         
-        config.autoConfigureUrls("http://sso.example.com");
+        config.autoConfigureUrls("http://114.67.33.50:7077/ssov3");
         SSOClient client = new SSOClient(config);
         return client;
     }

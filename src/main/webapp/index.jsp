@@ -12,6 +12,6 @@
 </head>
 <body>
     <% Authentication authentication = (Authentication)request.getSession().getAttribute("loginUser"); %>
-    恭喜！<%= authentication.getUsername() %> 已经登录！<a href="http://sso.example.com/oauth2/logout">注销</a>
+    恭喜！<%= authentication.getUsername() %> 已经登录！<a href="http://114.67.33.50:7077/ssov3/oauth2/logout">注销</a>
 </body>
 </html>
