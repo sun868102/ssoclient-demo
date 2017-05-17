@@ -16,18 +16,23 @@ import java.io.IOException;
  * Created by KAEL on 2017/5/10.
  */
 public class LoginServlet extends AbstractLoginServlet {
+    public static SSOClient client = null;
     @Override
     protected SSOClient getClient(ServletConfig servletConfig) throws ServletException {
-        SSOConfig config = new SSOConfig();
-        config.setClientId("ssoSDKClientId");
-        config.setClientSecret("ssoSDKClientSecret");
-        
-        // 这个地址需要在应用注册的时候填写
-        String redirectUri = servletConfig.getServletContext().getContextPath()+"/ssoclient/login";
-        config.setRedirectUri(redirectUri);
-        
-        config.autoConfigureUrls("http://114.67.33.50:7077/ssov3");
-        SSOClient client = new SSOClient(config);
+        if(client == null){
+            SSOConfig config = new SSOConfig();
+            config.setClientId("ssoSDKClientId");
+            config.setClientSecret("ssoSDKClientSecret");
+
+            // 这个地址需要在应用注册的时候填写
+            String redirectUri = servletConfig.getServletContext().getContextPath()+"/ssoclient/login";
+            config.setRedirectUri(redirectUri);
+            // 省公安厅开发测试环境sso:http://114.67.33.50:7077/ssov3
+            // 本地开发测试sso:http://localhost:8089/ssov3
+            config.autoConfigureUrls("http://localhost:8089/ssov3");
+            SSOClient client = new SSOClient(config);
+            LoginServlet.client = client;
+        }
         return client;
     }
 

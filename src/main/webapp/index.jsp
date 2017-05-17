@@ -1,4 +1,7 @@
-<%@ page import="net.bingosoft.oss.ssoclient.model.Authentication" %><%--
+<%@ page import="net.bingosoft.oss.ssoclient.model.Authentication" %>
+<%@ page import="net.bingosoft.oss.ssoclient.SSOUtils" %>
+<%@ page import="net.bingosoft.demo.LoginServlet" %>
+<%@ page import="net.bingosoft.oss.ssoclient.internal.Urls" %><%--
   Created by IntelliJ IDEA.
   User: KAEL
   Date: 2017/5/10
@@ -12,6 +15,13 @@
 </head>
 <body>
     <% Authentication authentication = (Authentication)request.getSession().getAttribute("loginUser"); %>
-    恭喜！<%= authentication.getUsername() %> 已经登录！<a href="http://114.67.33.50:7077/ssov3/oauth2/logout">注销</a>
+    <%
+        String logoutReturnUrl = SSOUtils.getSSOLogoutUrl(LoginServlet.client, Urls.getServerContextUrl(request)); 
+    %>
+    <!--
+    省公安厅开发测试环境sso:http://114.67.33.50:7077/ssov3
+    本地开发测试sso:http://localhost:8089/ssov3
+    -->
+    恭喜！<%= authentication.getUsername() %> 已经登录！<a href="<%=logoutReturnUrl%>">注销</a>
 </body>
 </html>
