@@ -123,13 +123,12 @@ public class ApiServlet extends HttpServlet {
 			throwAccessTokenEmpty(resp);
 			return;
 		}
-
 		Authentication auth = Utils.getClient().verifyAccessToken(accessToken);
-
 		if (auth.getScope() == null || auth.getScope().length() == 0) {
 			throwCustomerError(resp, "未授权的操作");
 			return;
 		}
+		//检验当前token是否包含本接口需要的权限
 		String[] atScopes = auth.getScope().split(",");
 		boolean hasPermission = false;
 		for (String scope : atScopes) {
@@ -153,8 +152,9 @@ public class ApiServlet extends HttpServlet {
 			throwAccessTokenEmpty(resp);
 			return;
 		}
-
+		//根据已有access_token获取新的token
 		AccessToken newAt = Utils.getClient().obtainAccessTokenByToken(accessToken);
+		//使用新的token调用其它接口
 		Map<String, Object> userInfo = UserService.getUserInfo(newAt);
 		Map<String, Object> info = new HashMap<>();
 		info.put("oldAccessToken", accessToken);
