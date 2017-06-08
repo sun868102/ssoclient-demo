@@ -1,3 +1,4 @@
+<%@page import="java.util.Map"%>
 <%@ page import="net.bingosoft.oss.ssoclient.model.Authentication" %><%--
   Created by IntelliJ IDEA.
   User: KAEL
@@ -11,8 +12,16 @@
     <title>用户信息</title>
 </head>
 <body>
-    <%= ((Authentication)request.getSession().getAttribute("loginUser")).getUsername() %>
+    当前用户名：<%= ((Authentication)request.getSession().getAttribute("loginUser")).getUsername() %>
     <br/>
-    <a href="/index.jsp">回到首页</a>
+    用户详细属性：<br/><br/>
+    <%
+	Map<String,Object> attrs = ((Authentication)request.getSession().getAttribute("loginUser")).getAttributes();
+	for (Map.Entry<String, Object> entry :attrs.entrySet()) {
+		out.println(entry.getKey() + ":" + entry.getValue()+ "<BR><BR>");
+	}
+	%>
+
+    <a href="/demo/index.jsp">回到首页</a>
 </body>
 </html>
