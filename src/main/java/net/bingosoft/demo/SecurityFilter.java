@@ -39,7 +39,10 @@ public class SecurityFilter implements Filter {
         		|| req.getRequestURI().contains("/swagger.json")){
             chain.doFilter(request,response);
         }else {
-            resp.sendRedirect(req.getContextPath()+"/ssoclient/login?return_url="+ Urls.encode("http://localhost:8080/demo/user.jsp"));
+        	String contextPath = "/".equals(req.getContextPath()) ? "" : req.getContextPath();
+        	String returnUrl=contextPath+"/user.jsp";
+
+            resp.sendRedirect(req.getContextPath()+"/ssoclient/login?return_url="+ Urls.encode(Utils.convertFullPathUrl(req, returnUrl)));
         }
     }
 

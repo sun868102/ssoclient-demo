@@ -17,12 +17,12 @@
 <body>
     <% Authentication authentication = (Authentication)request.getSession().getAttribute("loginUser"); %>
     <%
-        String logoutReturnUrl = SSOUtils.getSSOLogoutUrl(Utils.getClient(), Urls.getServerContextUrl(request));
+    	String logoutUrl=Urls.getServerContextUrl(request)+"/logout";
     %>
     <!--
     省公安厅开发测试环境sso:http://114.67.33.50:7077/ssov3
     本地开发测试sso:http://localhost:8089/ssov3
     -->
-    恭喜！<%= authentication.getUsername() %> 已经登录！<a href="<%=logoutReturnUrl%>">注销</a>
+    恭喜！<%= authentication.getUsername() %> 已经登录！<a href="<%=logoutUrl%>">注销</a>
 </body>
 </html>
