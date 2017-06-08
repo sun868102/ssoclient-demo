@@ -34,7 +34,9 @@ public class SecurityFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse)response;
         Object authentication = req.getSession().getAttribute("loginUser");
         // 检查用户是否登录
-        if(authentication != null || req.getRequestURI().endsWith("/ssoclient/login") || req.getRequestURI().contains("/api/")){
+        if(authentication != null || req.getRequestURI().endsWith("/ssoclient/login")
+        		|| req.getRequestURI().contains("/api/")
+        		|| req.getRequestURI().contains("/swagger.json")){
             chain.doFilter(request,response);
         }else {
             resp.sendRedirect(req.getContextPath()+"/ssoclient/login?return_url="+ Urls.encode("http://localhost:8080/demo/user.jsp"));

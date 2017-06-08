@@ -1,0 +1,349 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "API网关接入demo",
+        "description": "提供api网关接入的demo示例",
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/demo/api",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/info": {
+            "get": {
+                "tags": [
+                    "API开发示例"
+                ],
+                "summary": "输出信息",
+                "description": "输出请求头、及参数信息",
+                "operationId": "info",
+                "x-security": {
+                    "userRequired": false
+                },
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "返回请求头数据及参数数据",
+                        "schema": {
+                            "$ref": "#/definitions/RequestInfo"
+                        }
+                    },
+                    "500": {
+                        "description": "服务端处理错误",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "tags": [
+                    "API开发示例"
+                ],
+                "summary": "用户信息",
+                "description": "校验用户信息api示例",
+                "operationId": "user",
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ],
+                "x-security": {
+                    "userRequired": true
+                },
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "验证成功后的信息",
+                        "schema": {
+                            "$ref": "#/definitions/Authentication"
+                        }
+                    },
+                    "401": {
+                        "description": "token无效，或者过期",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "服务端处理错误",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/client": {
+            "get": {
+                "tags": [
+                    "API开发示例"
+                ],
+                "summary": "调用端信息",
+                "description": "校验调用端clientId的api示例",
+                "operationId": "client",
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ],
+                "x-security": {
+                    "userRequired": false
+                },
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "验证成功后的信息",
+                        "schema": {
+                            "$ref": "#/definitions/Authentication"
+                        }
+                    },
+                    "401": {
+                        "description": "token无效，或者过期",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "服务端处理错误",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/custom": {
+            "get": {
+                "tags": [
+                    "API开发示例"
+                ],
+                "summary": "自定义权限",
+                "description": "校验自定义权限的api示例",
+                "operationId": "custom",
+                "security": [
+                    {
+                        "oauth2": [
+                            "manage"
+                        ]
+                    }
+                ],
+                "x-security": {
+                    "userRequired": false
+                },
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "验证成功后的信息",
+                        "schema": {
+                            "$ref": "#/definitions/Authentication"
+                        }
+                    },
+                    "401": {
+                        "description": "token无效，或者过期",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "服务端处理错误",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/other": {
+            "get": {
+                "tags": [
+                    "API开发示例"
+                ],
+                "summary": "调用其它api",
+                "description": "调用其它api的示例",
+                "operationId": "other",
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ],
+                "x-security": {
+                    "userRequired": true
+                },
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "调用另一个api成功后，返回的汇总信息",
+                        "schema": {
+                            "$ref": "#/definitions/OtherApiInvokeInfo"
+                        }
+                    },
+                    "401": {
+                        "description": "token无效，或者过期",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "服务端处理错误",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Error": {
+            "type": "object",
+            "title": "服务器端错误",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "description": "错误编码，如：invalid_token、invalid_request等"
+                },
+                "error_description": {
+                    "type": "string",
+                    "description": "错误描述信息"
+                }
+            }
+        },
+        "Authentication": {
+            "type": "object",
+            "title": "认证信息",
+            "properties": {
+                "userId": {
+                    "type": "string",
+                    "description": "用户唯一标识符"
+                },
+                "username": {
+                    "type": "string",
+                    "description": "用户登录名"
+                },
+                "clientId": {
+                    "type": "string",
+                    "description": "调用端应用Id"
+                },
+                "scope": {
+                    "type": "string",
+                    "description": "调用端应用已被授权的权限列表"
+                },
+                "expires": {
+                    "type": "integer",
+                    "description": "过期时间，指的是距离标准日期1970-01-01T00:00:00Z UTC的秒数"
+                }
+            }
+        },
+        "AccessToken": {
+            "type": "object",
+            "title": "Token信息",
+            "properties": {
+                "accessToken": {
+                    "type": "string",
+                    "description": "access_token"
+                },
+                "refreshToken": {
+                    "type": "string",
+                    "description": "刷新token"
+                },
+                "tokenType": {
+                    "type": "string",
+                    "description": "token类型，一般为Bearer"
+                },
+                "expires": {
+                    "type": "integer",
+                    "description": "过期时间，指的是距离标准日期1970-01-01T00:00:00Z UTC的秒数"
+                }
+            }
+        },
+        "RequestInfo": {
+            "type": "object",
+            "title": "请求信息，包含请求头和请求参数",
+            "properties": {
+                "accept-language": {
+                    "type": "string",
+                    "description": "语言信息"
+                },
+                "host": {
+                    "type": "string",
+                    "description": "主机头信息"
+                },
+                "user-agent": {
+                    "type": "string",
+                    "description": "浏览器agent信息"
+                },
+                "accept": {
+                    "type": "integer",
+                    "description": "支持响应类型信息"
+                },
+                "accept-encoding": {
+                    "type": "integer",
+                    "description": "支持编码类型信息"
+                }
+            }
+        },
+        "OtherApiInvokeInfo": {
+            "type": "object",
+            "title": "调用其它API响应信息",
+            "properties": {
+                "oldAccessToken": {
+                    "type": "string",
+                    "description": "旧token"
+                },
+                "newAccessToken": {
+                    "$ref": "#/definitions/AccessToken"
+                },
+                "userInfo": {
+                    "$ref": "#/definitions/UserInfo"
+                }
+            }
+        },
+        "UserInfo": {
+            "type": "object",
+            "title": "认证信息",
+            "properties": {
+                "sub": {
+                    "type": "string",
+                    "description": "用户唯一标识符"
+                },
+                "login_name": {
+                    "type": "string",
+                    "description": "用户登录名"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "用户显示名"
+                },
+                "enabled": {
+                    "type": "integer",
+                    "description": "用户状态，0：未启用，1：已启用"
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "API开发示例",
+            "description": "API开发示例"
+        }
+    ],
+    "securityDefinitions": {
+        "oauth2": {
+            "type": "oauth2",
+            "flow": "accessCode",
+            "authorizationUrl": "https://developer.bingosoft.net:12100/ssov3/oauth2/authorize",
+            "tokenUrl": "https://developer.bingosoft.net:12100/ssov3/oauth2/token",
+            "scopes": {
+                "manage": "管理权限"
+            }
+        }
+    }
+}

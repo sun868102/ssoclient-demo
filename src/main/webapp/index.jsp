@@ -1,3 +1,4 @@
+<%@page import="net.bingosoft.demo.Utils"%>
 <%@ page import="net.bingosoft.oss.ssoclient.model.Authentication" %>
 <%@ page import="net.bingosoft.oss.ssoclient.SSOUtils" %>
 <%@ page import="net.bingosoft.demo.LoginServlet" %>
@@ -16,7 +17,7 @@
 <body>
     <% Authentication authentication = (Authentication)request.getSession().getAttribute("loginUser"); %>
     <%
-        String logoutReturnUrl = SSOUtils.getSSOLogoutUrl(LoginServlet.client, Urls.getServerContextUrl(request)); 
+        String logoutReturnUrl = SSOUtils.getSSOLogoutUrl(Utils.getClient(), Urls.getServerContextUrl(request));
     %>
     <!--
     省公安厅开发测试环境sso:http://114.67.33.50:7077/ssov3

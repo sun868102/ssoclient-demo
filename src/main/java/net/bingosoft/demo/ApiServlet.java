@@ -40,8 +40,8 @@ public class ApiServlet extends HttpServlet {
 				user(req, resp);
 			} else if (pathInfo.endsWith("client")) {
 				client(req, resp);
-			} else if (pathInfo.endsWith("customer")) {
-				customer(req, resp);
+			} else if (pathInfo.endsWith("custom")) {
+				custom(req, resp);
 			} else if (pathInfo.endsWith("other")) {
 				otherApi(req, resp);
 			} else {
@@ -116,7 +116,7 @@ public class ApiServlet extends HttpServlet {
 
 	}
 
-	protected void customer(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	protected void custom(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String needPermission = "manage";
 		String accessToken = SSOUtils.extractAccessToken(req);
 		if (accessToken == null || accessToken.length() == 0) {
